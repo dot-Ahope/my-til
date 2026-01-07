@@ -1,0 +1,54 @@
+# 워크플로우의 이름 (GitHub Actions 탭에 표시됨)
+name: Deploy to GitHub Pages
+
+# 1. 언제 실행할 것인가?
+on:
+  push:
+    branches: [main]  # main 브랜치에 새 글이 올라오면(push) 실행
+
+# 2. 권한 설정 (GitHub Pages에 배포하기 위해 필요)
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 3. 동시 실행 방지 (여러 번 push해도 꼬이지 않게 함)
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# 4. 실제 할 일들 (Jobs)
+jobs:
+  # [빌드 작업]
+  build:
+    runs-on: ubuntu-latest # 최신 리눅스 가상 컴퓨터를 빌려옴
+    steps:
+      - name: Checkout # 내 코드를 가져옴
+        uses: actions/checkout@v4
+      - name: Setup Node # Node.js 20 버전을 설치함
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Setup Pages # GitHub Pages 배포 환경을 설정함
+        uses: actions/configure-pages@v5
+      - name: Install dependencies # 필요한 프로그램(VitePress 등) 설치
+        run: npm ci
+      - name: Build with VitePress # 실제 HTML로 변환하는 명령어(중요)
+        run: npm run docs:build
+      - name: Upload artifact # 변환된 결과물을 배포 단계로 넘겨줌
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist # (중요) 결과물이 생기는 위치
+
+  # [배포 작업]
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build # 위 'build' 작업이 성공해야만 실행함
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages # 실제 인터넷에 공개
+        id: deployment
+        uses: actions/deploy-pages@v4
