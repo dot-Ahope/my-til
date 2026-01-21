@@ -22,7 +22,7 @@ export default defineConfig({
             items: [
               // 실제 글 목록
               { text: '07일 - 첫 번째 포스팅', link: '/2026/01/07-first-post' },
-              { text: '08일 - 내일 쓸 글', link: '/2026/01/08-topic' }
+              { text: '08일 - TIL', link: '/2026/01/08-til' }
             ]
           },
           // 2월 그룹 (미리 만들어두거나 나중에 추가)
@@ -36,7 +36,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/내아이디/my-til' }
+      { icon: 'github', link: 'https://github.com/dot-Ahope' }
     ]
   }
 })
