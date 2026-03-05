@@ -7,22 +7,22 @@ jetson orin에 호환되는 jetpack 7 버전이 26년 2분기에 출시하기 �
 ## 1. SSD에 jetpack 6.2.1 버전 설치까지
 - jetpack 6.2.1 버전 이미지 다운로드
   -  링크 : https://developer.nvidia.com/embedded/jetpack-sdk-622
-  -  ![alt text](image.png)
+  -  ![alt text](images/jetpack_6.1버전_설치하기/image.png)
      -  Install JetPack에서 For Jetson Orin Nano Developer Kit currently running JetPack 6.x 선택
      -  누르면 나오는 녹색 버튼 클릭해서 다운로드
 - jetpack 6.2.1 버전 이미지 설치
   - rufus로 jetpack 6.2.1 버전 이미지 설치
     -  rufus 다운로드
        -  rufus 실행
-       -  <img src="image-1.png" width="50%" height="50%"/>
+      -  <img src="images/jetpack_6.1버전_설치하기/image-1.png" width="50%" height="50%"/>
        -  장치 선택 및 jetpack 6.2.1 버전 이미지(sd-blob.img) 선택
-       -  <img src="image-3.png" width="50%" height="50%"/>
-       -  <img src="image-2.png" width="50%" height="50%"/>
+      -  <img src="images/jetpack_6.1버전_설치하기/image-3.png" width="50%" height="50%"/>
+      -  <img src="images/jetpack_6.1버전_설치하기/image-2.png" width="50%" height="50%"/>
        -  시작 클릭하면 rufus가 자동으로 포맷 및 이미지 설치 진행
 
 ## 2. 이제 orin nano에 ssd를 연결해서 부팅하면 문제가 생길 것이다.
 -  부팅 시 mmcblk0p1 not found 에러 발생
-- ![alt text](image-4.png)
+- ![alt text](images/jetpack_6.1버전_설치하기/image-4.png)
    - 보이는가? ERROR: nmcblk0p1 not found 라고 뜨는 것을.
    - mmcblk0p1은 Jetson의 내부 SD 카드 슬롯을 가리키는 이름이다.
    - 이미지 내부에 정의된 부팅 경로가 여전히 SD 카드로 고정되어 있는 것이다.
@@ -34,7 +34,7 @@ jetson orin에 호환되는 jetpack 7 버전이 26년 2분기에 출시하기 �
   - ### 1) SSD를 리눅스 PC에 연결하기
       -  SSD를 리눅스 PC에 연결한다.
       -  df -h 명령어로 연결된 디스크 확인하기
-      - ![alt text](image-5.png)
+      - ![alt text](images/jetpack_6.1버전_설치하기/image-5.png)
       - /dev/sda1이 바로 리눅스 PC가 SSD에 설치된 파티션을 마운트한 것.
   - ### 2) 이제 SSD의 boot 디렉토리로 이동해서 부팅 설정 파일 수정하기
     -  cd /media/jetson/752d27c0-5370-43a2-9666-6f6c7e937dce/boot/extlinux
@@ -53,5 +53,5 @@ jetson orin에 호환되는 jetpack 7 버전이 26년 2분기에 출시하기 �
   -  SSD가 다른 이름으로 인식될 수도 있기 때문에, 리눅스 PC에서 lsblk 명령어로 연결된 디스크와 파티션을 확인해서 정확한 장치 이름을 찾아야 한다.
   -  찾는 법 : sudo blkid 명령어로 파티션의 UUID를 확인할 수 있다. 예를 들어, /dev/sda1의 UUID가 1234-5678이라면, extlinux.conf 파일에서 root=PARTUUID=1234-5678로 수정하면 된다.
 - ### 3) SSD를 USB 장치로 PC에 연결하기
-  - ![alt text](image-6.png)
+  - ![alt text](images/jetpack_6.1버전_설치하기/image-6.png)
   - 이걸로 연결했음 ㅇㅇ;
